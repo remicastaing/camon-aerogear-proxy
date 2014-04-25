@@ -20,7 +20,7 @@ server.get('/send', function(req, res){
 
   client.setBasicAuth(req.query.pAID, req.query.ms);
   client.post('rest/sender', data, function(err, res, body) {
-      return console.log(res.statusCode);
+      return console.log(res.statusCode+': send to: '+req.query.alias);
   });
 
   res.send('hello world');
