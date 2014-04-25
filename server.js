@@ -10,7 +10,13 @@ var client = request.newClient('https://aerogear-camon.rhcloud.com/');
 server.get('/send', function(req, res){
   console.log(req.query);
 
-  var data = {"message": {"alert":"Test avec Curl", "badge":666, "customKey":"some value"}};
+  var data = {
+    "alias": [req.query.alias],
+    "message": {
+      "alert":"Test avec Curl", 
+      "badge":666,
+      "customKey":"some value"}
+    };
 
   client.setBasicAuth(req.query.pAID, req.query.ms);
   client.post('rest/sender', data, function(err, res, body) {
