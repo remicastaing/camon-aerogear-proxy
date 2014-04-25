@@ -13,9 +13,7 @@ server.get('/send', function(req, res){
   var data = {
     "alias": [req.query.alias],
     "message": {
-      "alert":"Test avec Curl", 
-      "badge":666,
-      "customKey":"some value"}
+      "alert":req.query.alert}
     };
 
   client.setBasicAuth(req.query.pAID, req.query.ms);
