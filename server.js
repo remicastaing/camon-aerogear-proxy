@@ -7,18 +7,23 @@ var server = express();
 var request = require('request-json');
 var client = request.newClient('https://aerogear-camon.rhcloud.com/');
 
-server.get('/send', function(req, res){
-  console.log(req.query);
+// server.param('PushApplicationID', /^\d+$/);
+// server.param('MasterSecret', /^\d+$/);
+// server.param('alias', /^\d+$/);
+// server.param('alert', /^\d+$/);
+
+server.get('/send/:PushApplicationID/:MasterSecret/:alias/:alert', function(req, res){
+  console.log(req.params);
 
   var data = {
-    "alias": [req.query.alias],
+    "alias": [req.params.alias],
     "message": {
-      "alert":req.query.alert}
+      "alert":req.params.alert}
     };
 
-  client.setBasicAuth(req.query.pAID, req.query.ms);
+  client.setBasicAuth(req.params.PushApplicationID, req.params.MasterSecret);
   client.post('rest/sender', data, function(err, res, body) {
-      return console.log(res.statusCode+': send to: '+req.query.alias);
+      return console.log(res.statusCode+': send to: '+req.params.alias);
   });
 
   res.send('hello world');
