@@ -12,14 +12,18 @@ var client = request.newClient('https://aerogear-camon.rhcloud.com/');
 // server.param('alias', /^\d+$/);
 // server.param('alert', /^\d+$/);
 
-server.get('/send/:PushApplicationID/:MasterSecret/:alias/:alert', function(req, res){
+server.get('/send/:PushApplicationID/:MasterSecret/:alias/:alert/:sound*?', function(req, res){
+  
   console.log(req.params);
+  var reg = /^[0-9]$/;
 
   var data = {
     "alias": [req.params.alias],
     "message": {
-      "alert":req.params.alert}
+      "alert":req.params.alert},
+    "sound": reg.test(req.params.sound) ? "" + req.params.sound + ".caf" : "mySound.caf"
     };
+
 
   client.setBasicAuth(req.params.PushApplicationID, req.params.MasterSecret);
   client.post('rest/sender', data, function(err, res, body) {
